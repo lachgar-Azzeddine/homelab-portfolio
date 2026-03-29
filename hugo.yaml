@@ -43,8 +43,8 @@ params:
     title: "Azzeddine Lachgar"
     subtitle: "Kuberstronaut · DevOps Engineer · Casablanca, Morocco"
     imageUrl: "/images/avatar.jpg"
-    imageWidth: 120
-    imageHeight: 120
+    imageWidth: 160
+    imageHeight: 160
     imageTitle: "Azzeddine Lachgar"
     buttons:
       - name: Blog
