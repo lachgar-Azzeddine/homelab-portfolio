@@ -1,0 +1,64 @@
+/* ── Certification badges ─────────────────────────────────── */
+.cert-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  align-items: center;
+}
+
+.cert-badges img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.cert-badges img:hover {
+  transform: scale(1.08);
+}
+
+/* ── Profile subtitle ─────────────────────────────────────── */
+.profile .profile_inner h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+/* ── Table improvements ───────────────────────────────────── */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.post-content th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+}
+
+.post-content td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Code block label ─────────────────────────────────────── */
+.post-content pre {
+  border-radius: 6px;
+}
+
+/* ── Homelab architecture block ───────────────────────────── */
+.arch-diagram {
+  background: var(--code-bg);
+  border-radius: 6px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
