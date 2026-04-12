@@ -10,13 +10,11 @@
 </div>
 
 <script>
-  fetch(window.location.href, { method: 'HEAD' }).then(res => {
-    const pod  = res.headers.get('X-Pod-Name');
-    const node = res.headers.get('X-Node-Name');
-    if (!pod || !node) return;
-    const short = pod.replace(/^portfolio-/, '').replace(/-[^-]+$/, '…');
+  fetch('/pod-info.json').then(r => r.json()).then(d => {
+    if (!d.pod || !d.node) return;
+    const short = d.pod.replace(/^portfolio-/, '').replace(/-[^-]+$/, '…');
     document.getElementById('served-by-text').textContent =
-      'served by pod ' + short + ' on ' + node;
+      'served by pod ' + short + ' on ' + d.node;
     document.getElementById('served-by').style.display = 'flex';
   }).catch(() => {});
 </script>
