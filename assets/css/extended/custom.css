@@ -184,28 +184,24 @@
   border-color: rgba(88, 166, 255, 0.6);
 }
 
-/* ── Push page content above the served-by bar ───────────── */
-body {
-  padding-bottom: 2rem;
-}
-
-/* ── Served-by footer bar ─────────────────────────────────── */
+/* ── Served-by pill ───────────────────────────────────────── */
 .served-by {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(13, 17, 23, 0.92);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 0.3rem 1rem;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.72rem;
-  color: #475569;
-  z-index: 50;
+  z-index: 100;
   backdrop-filter: blur(4px);
+  user-select: none;
 }
 .served-by-dot {
   width: 6px;
@@ -213,16 +209,12 @@ body {
   border-radius: 50%;
   background: #22c55e;
   flex-shrink: 0;
-  box-shadow: 0 0 4px #22c55e;
+  box-shadow: 0 0 5px #22c55e;
   animation: pulse-dot 2.5s ease-in-out infinite;
 }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
-/* push terminal hint above the served-by bar */
-.terminal-hint {
-  bottom: 2.5rem;
+  50%       { opacity: 0.35; }
 }
 
 /* ── Homelab architecture block ───────────────────────────── */
