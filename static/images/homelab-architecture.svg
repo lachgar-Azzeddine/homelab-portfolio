@@ -1,0 +1,92 @@
+<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" width="720" height="440"
+     style="font-family:'Courier New',Courier,monospace;">
+
+  <!-- Hardware outer box -->
+  <rect x="2" y="2" width="716" height="296" rx="10"
+        fill="none" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="2" y="2" width="222" height="22" rx="4" fill="#7c3aed"/>
+  <text x="12" y="17" fill="#fff" font-size="12" font-weight="bold">Dell OptiPlex 7020 MFF</text>
+  <text x="232" y="17" fill="#a78bfa" font-size="11">i5-14500T · 64 GB DDR5 · 4 TB NVMe</text>
+
+  <!-- Proxmox inner box -->
+  <rect x="18" y="32" width="682" height="254" rx="8"
+        fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="28" y="48" fill="#94a3b8" font-size="11">Proxmox VE 9.1.6</text>
+
+  <!-- server-1 -->
+  <rect x="34" y="56" width="196" height="100" rx="6" fill="#1e2d4a" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="132" y="76" fill="#3b82f6" font-size="12" font-weight="bold" text-anchor="middle">server-1</text>
+  <text x="132" y="93" fill="#93c5fd" font-size="10" text-anchor="middle">10.10.0.11</text>
+  <text x="132" y="109" fill="#94a3b8" font-size="10" text-anchor="middle">RKE2 control plane</text>
+  <line x1="44" y1="118" x2="220" y2="118" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="132" y="132" fill="#64748b" font-size="9" text-anchor="middle">ArgoCD · cert-manager · Vault</text>
+  <text x="132" y="145" fill="#64748b" font-size="9" text-anchor="middle">Istio · MetalLB · cloudflared</text>
+
+  <!-- agent-1 -->
+  <rect x="262" y="56" width="180" height="100" rx="6" fill="#1a2e1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="352" y="76" fill="#22c55e" font-size="12" font-weight="bold" text-anchor="middle">agent-1</text>
+  <text x="352" y="93" fill="#86efac" font-size="10" text-anchor="middle">10.10.0.21</text>
+  <text x="352" y="109" fill="#94a3b8" font-size="10" text-anchor="middle">RKE2 worker</text>
+  <line x1="272" y1="118" x2="432" y2="118" stroke="#14532d" stroke-width="1"/>
+  <text x="352" y="132" fill="#64748b" font-size="9" text-anchor="middle">Longhorn replica</text>
+  <text x="352" y="145" fill="#64748b" font-size="9" text-anchor="middle">Datadog agent</text>
+
+  <!-- agent-2 -->
+  <rect x="474" y="56" width="180" height="100" rx="6" fill="#1a2e1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="564" y="76" fill="#22c55e" font-size="12" font-weight="bold" text-anchor="middle">agent-2</text>
+  <text x="564" y="93" fill="#86efac" font-size="10" text-anchor="middle">10.10.0.22</text>
+  <text x="564" y="109" fill="#94a3b8" font-size="10" text-anchor="middle">RKE2 worker</text>
+  <line x1="484" y1="118" x2="644" y2="118" stroke="#14532d" stroke-width="1"/>
+  <text x="564" y="132" fill="#64748b" font-size="9" text-anchor="middle">Longhorn replica</text>
+  <text x="564" y="145" fill="#64748b" font-size="9" text-anchor="middle">Datadog agent</text>
+
+  <!-- connector lines: VMs down to MetalLB row -->
+  <line x1="132" y1="156" x2="132" y2="192" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="132" y1="192" x2="262" y2="202" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="352" y1="156" x2="352" y2="178" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="564" y1="156" x2="564" y2="192" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="564" y1="192" x2="458" y2="202" stroke="#334155" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- MetalLB VIP -->
+  <rect x="262" y="178" width="196" height="46" rx="6" fill="#2d1b4e" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="360" y="197" fill="#a855f7" font-size="11" font-weight="bold" text-anchor="middle">MetalLB VIP</text>
+  <text x="360" y="214" fill="#c4b5fd" font-size="10" text-anchor="middle">10.10.0.50 — Istio Gateway</text>
+
+  <!-- LXC 100 -->
+  <rect x="34" y="248" width="650" height="32" rx="6" fill="#2a1f0a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="359" y="262" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">LXC 100 — Tailscale subnet router</text>
+  <text x="359" y="275" fill="#fcd34d" font-size="10" text-anchor="middle">10.10.0.100</text>
+
+  <!-- Public path box -->
+  <rect x="2" y="314" width="348" height="122" rx="8" fill="#1c1008" stroke="#f97316" stroke-width="1.5"/>
+  <text x="16" y="332" fill="#f97316" font-size="11" font-weight="bold">Public — Cloudflare Tunnel</text>
+  <text x="16" y="354" fill="#cbd5e1" font-size="11">Internet</text>
+  <text x="75" y="354" fill="#f97316" font-size="12">→</text>
+  <text x="90" y="354" fill="#cbd5e1" font-size="11">Cloudflare DNS</text>
+  <text x="202" y="354" fill="#f97316" font-size="12">→</text>
+  <text x="217" y="354" fill="#cbd5e1" font-size="11">Tunnel</text>
+  <text x="16" y="374" fill="#f97316" font-size="12">→</text>
+  <text x="31" y="374" fill="#cbd5e1" font-size="11">cloudflared pod</text>
+  <text x="148" y="374" fill="#f97316" font-size="12">→</text>
+  <text x="163" y="374" fill="#cbd5e1" font-size="11">Service</text>
+  <text x="16" y="398" fill="#64748b" font-size="10">No open ports. TLS at Cloudflare edge.</text>
+  <text x="16" y="414" fill="#64748b" font-size="10">Bypasses Istio — intentional.</text>
+  <text x="16" y="430" fill="#64748b" font-size="10">Cloudflare is in the trust path.</text>
+
+  <!-- Private path box -->
+  <rect x="370" y="314" width="348" height="122" rx="8" fill="#0c1524" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="384" y="332" fill="#3b82f6" font-size="11" font-weight="bold">Private — Tailscale VPN</text>
+  <text x="384" y="354" fill="#cbd5e1" font-size="11">Laptop</text>
+  <text x="432" y="354" fill="#3b82f6" font-size="12">→</text>
+  <text x="447" y="354" fill="#cbd5e1" font-size="11">Tailscale</text>
+  <text x="515" y="354" fill="#3b82f6" font-size="12">→</text>
+  <text x="530" y="354" fill="#cbd5e1" font-size="11">LXC router</text>
+  <text x="384" y="374" fill="#3b82f6" font-size="12">→</text>
+  <text x="399" y="374" fill="#cbd5e1" font-size="11">MetalLB VIP</text>
+  <text x="490" y="374" fill="#3b82f6" font-size="12">→</text>
+  <text x="505" y="374" fill="#cbd5e1" font-size="11">Istio GW</text>
+  <text x="384" y="398" fill="#64748b" font-size="10">WireGuard-encrypted. Full mTLS in mesh.</text>
+  <text x="384" y="414" fill="#64748b" font-size="10">ArgoCD · Longhorn · Vault only here.</text>
+  <text x="384" y="430" fill="#64748b" font-size="10">Internal tools never exposed publicly.</text>
+
+</svg>

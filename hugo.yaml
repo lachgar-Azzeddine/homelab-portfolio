@@ -51,6 +51,8 @@ params:
         url: posts
       - name: Homelab
         url: homelab
+      - name: Roadmap
+        url: roadmap
       - name: About
         url: about
 
@@ -58,7 +60,7 @@ params:
     - name: github
       url: "https://github.com/lachgar-Azzeddine"
     - name: linkedin
-      url: "https://www.linkedin.com/in/azzeddine-lachgar"
+      url: "https://www.linkedin.com/in/lachgar-azzeddine"
     - name: rss
       url: "index.xml"
 
@@ -91,6 +93,10 @@ menu:
       name: Uses
       url: /uses/
       weight: 40
+    - identifier: roadmap
+      name: Roadmap
+      url: /roadmap/
+      weight: 50
 
 outputs:
   home:
