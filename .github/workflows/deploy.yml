@@ -63,7 +63,7 @@ jobs:
       - name: Update portfolio image tag
         run: |
           SHA_TAG="sha-$(echo ${{ github.sha }} | cut -c1-7)"
-          sed -i "s|ghcr.io/${{ env.IMAGE_NAME }}:sha-[a-z0-9]*|ghcr.io/${{ env.IMAGE_NAME }}:${SHA_TAG}|g" \
+          sed -i "s|ghcr.io/${{ env.IMAGE_NAME }}:[a-zA-Z0-9._-]*|ghcr.io/${{ env.IMAGE_NAME }}:${SHA_TAG}|g" \
             platform/portfolio/deployment.yaml
 
       - name: Commit and push
