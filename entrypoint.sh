@@ -1,9 +1,6 @@
 #!/bin/sh
-# Extract cluster DNS IP from resolv.conf for nginx resolver directive
-RESOLVER=$(awk '/^nameserver/{print $2; exit}' /etc/resolv.conf)
-
 # Substitute env vars — leave nginx variables like $uri untouched
-envsubst '${POD_NAME}${NODE_NAME}${RESOLVER}' \
+envsubst '${POD_NAME}${NODE_NAME}${KUBE_DNS_IP}' \
   < /etc/nginx/conf.d/default.conf.template \
   > /etc/nginx/conf.d/default.conf
 
