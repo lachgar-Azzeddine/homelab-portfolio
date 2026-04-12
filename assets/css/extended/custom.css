@@ -184,6 +184,11 @@
   border-color: rgba(88, 166, 255, 0.6);
 }
 
+/* ── Push page content above the served-by bar ───────────── */
+body {
+  padding-bottom: 2rem;
+}
+
 /* ── Served-by footer bar ─────────────────────────────────── */
 .served-by {
   position: fixed;
