@@ -1,4 +1,22 @@
 <script src="/js/terminal.js"></script>
+
 <button class="terminal-hint" onclick="window.__terminal.open()" title="Open terminal (or press /)">
   &gt;_ terminal
 </button>
+
+<div id="served-by" class="served-by" style="display:none">
+  <span class="served-by-dot"></span>
+  <span id="served-by-text"></span>
+</div>
+
+<script>
+  fetch(window.location.href, { method: 'HEAD' }).then(res => {
+    const pod  = res.headers.get('X-Pod-Name');
+    const node = res.headers.get('X-Node-Name');
+    if (!pod || !node) return;
+    const short = pod.replace(/^portfolio-/, '').replace(/-[^-]+$/, '…');
+    document.getElementById('served-by-text').textContent =
+      'served by pod ' + short + ' on ' + node;
+    document.getElementById('served-by').style.display = 'flex';
+  }).catch(() => {});
+</script>

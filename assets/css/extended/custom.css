@@ -184,6 +184,42 @@
   border-color: rgba(88, 166, 255, 0.6);
 }
 
+/* ── Served-by footer bar ─────────────────────────────────── */
+.served-by {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13, 17, 23, 0.92);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 0.3rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  color: #475569;
+  z-index: 50;
+  backdrop-filter: blur(4px);
+}
+.served-by-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px #22c55e;
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+/* push terminal hint above the served-by bar */
+.terminal-hint {
+  bottom: 2.5rem;
+}
+
 /* ── Homelab architecture block ───────────────────────────── */
 pre.arch-diagram {
   background: var(--code-bg);
