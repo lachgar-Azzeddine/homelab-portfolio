@@ -97,6 +97,10 @@ menu:
       name: Roadmap
       url: /roadmap/
       weight: 50
+    - identifier: incidents
+      name: Incidents
+      url: /incidents/
+      weight: 60
 
 outputs:
   home:
