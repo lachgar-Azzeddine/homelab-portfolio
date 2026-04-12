@@ -15,6 +15,16 @@ The cluster runs at **[azzhomelab.tech](https://azzhomelab.tech)**. The source o
 **Hardware:** Dell OptiPlex 7020 MFF — Intel Core i5-14500T (14C/20T), 64GB DDR5, 4TB NVMe  
 **Hypervisor:** Proxmox VE — 3 VMs on an isolated internal subnet
 
+<div id="cluster-status" class="cluster-status">
+  <div class="cs-header">
+    <span class="cs-title">LIVE CLUSTER STATUS</span>
+    <span class="cs-updated" id="cs-updated">fetching…</span>
+  </div>
+  <div class="cs-grid" id="cs-grid">
+    <div class="cs-loading">connecting to cluster…</div>
+  </div>
+</div>
+
 ---
 
 ## Architecture

@@ -217,6 +217,59 @@
   50%       { opacity: 0.35; }
 }
 
+/* ── Live cluster status widget ──────────────────────────── */
+.cluster-status {
+  background: var(--code-bg);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+}
+.cs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.cs-title {
+  color: #58a6ff;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+.cs-updated {
+  color: #475569;
+  font-size: 0.72rem;
+}
+.cs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.cs-loading {
+  color: #475569;
+}
+.cs-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.2rem 0;
+}
+.cs-name  { color: #e2e8f0; }
+.cs-sync  { font-size: 0.78rem; }
+.cs-health { font-size: 0.78rem; }
+.cs-synced   { color: #3fb950; }
+.cs-outofsync { color: #d29922; }
+.cs-unknown  { color: #475569; }
+.cs-healthy  { color: #3fb950; }
+.cs-degraded { color: #f85149; }
+.cs-progressing { color: #58a6ff; }
+
 /* ── Homelab architecture block ───────────────────────────── */
 pre.arch-diagram {
   background: var(--code-bg);

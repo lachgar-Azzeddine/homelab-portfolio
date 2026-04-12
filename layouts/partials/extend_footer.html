@@ -1,4 +1,11 @@
 <script src="/js/terminal.js"></script>
+<script>
+  if (document.getElementById('cs-grid')) {
+    var s = document.createElement('script');
+    s.src = '/js/cluster-status.js';
+    document.body.appendChild(s);
+  }
+</script>
 
 <button class="terminal-hint" onclick="window.__terminal.open()" title="Open terminal (or press /)">
   &gt;_ terminal
