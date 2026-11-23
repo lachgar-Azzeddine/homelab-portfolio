@@ -1,0 +1,126 @@
+---
+import Base from "../layouts/Base.astro";
+import { person, summary, experience, education, certifications, skills, projects, contributions } from "../lib/site";
+
+const merged = contributions.filter((c) => c.status === "merged");
+---
+<Base title="Resume" description="Resume of Azzeddine Lachgar, DevOps engineer and Kubestronaut.">
+  <div class="wrap actions no-print">
+    <p class="kicker">Resume</p>
+    <a class="btn solid" href="/resume.pdf">Download PDF</a>
+  </div>
+
+  <article class="wrap cv">
+    <header class="cv-head">
+      <div>
+        <h1>{person.name}</h1>
+        <p class="role">{person.role} · Kubestronaut</p>
+      </div>
+      <ul class="contact">
+        <li>{person.city}</li>
+        <li><a href={person.site}>azzhomelab.tech</a></li>
+        <li><a href={person.github}>github.com/lachgar-Azzeddine</a></li>
+        <li><a href={person.linkedin}>linkedin.com/in/lachgar-azzeddine</a></li>
+      </ul>
+    </header>
+
+    <p class="summary">{summary}</p>
+
+    <section>
+      <h2>Experience</h2>
+      {experience.map((x) => (
+        <div class="item">
+          <div class="item-head"><h3>{x.role}, {x.org} <span>{x.place}</span></h3><span class="when">{x.when}</span></div>
+          <ul>{x.points.map((p) => <li>{p}</li>)}</ul>
+        </div>
+      ))}
+    </section>
+
+    <section>
+      <h2>Open source</h2>
+      {projects.map((p) => (
+        <div class="item">
+          <div class="item-head"><h3><a href={p.url}>{p.name}</a> <span>author</span></h3></div>
+          <p>{p.line} {p.facts.join(". ")}.</p>
+        </div>
+      ))}
+      <div class="item">
+        <div class="item-head"><h3>Upstream fixes <span>merged</span></h3></div>
+        <ul>{merged.map((c) => <li><a href={c.url}>{c.project}</a>: {c.what}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="two">
+      <div>
+        <h2>Certifications</h2>
+        <ul class="plain">{certifications.map((c) => <li><b>{c.code}</b> {c.name}</li>)}</ul>
+      </div>
+      <div>
+        <h2>Education</h2>
+        <ul class="plain">{education.map((e) => <li><b>{e.what}</b><br /><span class="muted">{e.where}, {e.when}</span></li>)}</ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <dl class="skills">
+        {skills.map((s) => (<><dt>{s.group}</dt><dd>{s.items.join(" · ")}</dd></>))}
+      </dl>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 40px 20px; }
+  .actions .kicker { margin: 0; }
+  .cv { max-width: 860px; padding-bottom: 80px; }
+  .cv-head { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: end; padding-bottom: 20px; border-bottom: 3px solid color-mix(in oklab, var(--charge) var(--e), var(--spent)); }
+  h1 { font-family: var(--display); font-weight: 850; font-stretch: 120%; font-size: clamp(2.2rem, 5.6vw, 3.4rem); line-height: 0.95; letter-spacing: -0.035em; margin: 0; }
+  .role { margin: 10px 0 0; font: 600 0.95rem/1 var(--mono); color: var(--muted); }
+  .contact { list-style: none; margin: 0; padding: 0; text-align: right; font: 500 0.82rem/1.7 var(--mono); color: var(--muted); }
+  .contact a { text-decoration: none; }
+  .summary { font-size: 1.08rem; margin: 22px 0 0; }
+  section { margin-top: 34px; }
+  h2 { font: 700 0.78rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .item { margin-bottom: 18px; break-inside: avoid; }
+  .item-head { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+  h3 { font: 700 1.05rem/1.35 var(--body); margin: 0; }
+  h3 span { font-weight: 400; color: var(--muted); font-size: 0.92rem; margin-left: 4px; }
+  h3 a { text-decoration: none; }
+  .when { font: 500 0.82rem/1 var(--mono); color: var(--muted); white-space: nowrap; }
+  .item ul { margin: 8px 0 0; padding-left: 1.15em; }
+  .item li { margin-top: 3px; }
+  .item p { margin: 6px 0 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .muted { color: var(--muted); font-size: 0.92rem; }
+  .skills { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 8px 20px; margin: 0; }
+  .skills dt { font-weight: 700; }
+  .skills dd { margin: 0; color: var(--muted); }
+  @media (max-width: 640px) {
+    .contact { text-align: left; }
+    .two, .skills { grid-template-columns: minmax(0, 1fr); }
+    .skills dd { margin-bottom: 8px; }
+  }
+  @media print {
+    @page { size: A4; margin: 14mm 14mm 12mm; }
+    .cv { max-width: none; padding: 0; font-size: 9.2pt; line-height: 1.42; }
+    .cv-head { border-bottom-color: #e8501a; padding-bottom: 10px; }
+    h1 { font-size: 24pt; }
+    .contact { font-size: 8pt; line-height: 1.55; }
+    section { margin-top: 12px; }
+    h2 { font-size: 7.5pt; margin-bottom: 8px; padding-bottom: 5px; }
+    h3 { font-size: 10pt; }
+    .summary { font-size: 9.6pt; margin-top: 10px; }
+    .item { margin-bottom: 7px; }
+    .item ul { margin-top: 3px; }
+    .item li { margin-top: 1px; }
+    .item p { margin-top: 2px; }
+    .plain { gap: 3px; }
+    .plain br { display: none; }
+    .plain .muted { font-size: 8.4pt; margin-left: 4px; }
+    .two { gap: 24px; }
+    .skills { grid-template-columns: 11rem minmax(0, 1fr); gap: 2px 14px; }
+    a { text-decoration: none; color: inherit; }
+  }
+</style>

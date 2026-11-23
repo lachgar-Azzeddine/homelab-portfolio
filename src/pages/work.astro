@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+import { projects, contributions } from "../lib/site";
+
+const merged = contributions.filter((c) => c.status === "merged").length;
+---
+<Base title="Work" description="Open-source controllers I wrote, and the fixes I sent upstream to Kepler, Capsule and Kamaji.">
+  <div class="wrap head">
+    <p class="kicker">Work</p>
+    <h1 class="display small">Open source.</h1>
+    <p class="lede">Two controllers I wrote, and the fixes I sent to the projects I build on.</p>
+  </div>
+
+  <section class="block">
+    <div class="wrap">
+      <p class="kicker">Projects</p>
+      <div class="projects">
+        {projects.map((p) => (
+          <article class="project">
+            <h2><a href={p.url}>{p.name}</a></h2>
+            <p class="line">{p.line}</p>
+            <p>{p.body}</p>
+            <ul class="facts">{p.facts.map((f) => <li>{f}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="contrib-head">
+        <div><p class="kicker">Upstream</p><h2 class="h2">Fixes in other people's projects.</h2></div>
+        <p class="count"><b>{merged}</b> merged · {contributions.length - merged} in review</p>
+      </div>
+      <ul class="prs">
+        {contributions.map((c) => (
+          <li>
+            <span class="proj">{c.project}</span>
+            <a href={c.url}>{c.what}</a>
+            <span class:list={["chip", { on: c.status === "merged" }]}>{c.status}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding-block: 64px 40px; }
+  .display.small { font-size: clamp(2.4rem, 6.4vw, 4.4rem); }
+  .projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .project { padding: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .project h2 { font: 700 1.4rem/1.2 var(--mono); margin: 0; }
+  .project h2 a { text-decoration: none; }
+  .project p { margin: 0; color: var(--muted); }
+  .project .line { color: var(--ink); font-weight: 600; }
+  .facts { list-style: none; padding: 0; margin: auto 0 0; display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
+  .facts li { font: 500 0.74rem/1 var(--mono); color: var(--muted); border: 1px solid var(--line); padding: 6px 8px; border-radius: 4px; }
+  .contrib-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; }
+  .contrib-head .h2 { margin: 0; }
+  .count { font: 500 0.85rem/1 var(--mono); color: var(--muted); margin: 0; }
+  .count b { font: 800 2.6rem/1 var(--display); font-stretch: 120%; color: var(--ink); margin-right: 4px; }
+  .prs { list-style: none; margin: 0; padding: 0; }
+  .prs li { display: grid; grid-template-columns: 7rem minmax(0, 1fr) auto; gap: 20px; align-items: baseline; padding-block: 18px; border-top: 1px solid var(--line); }
+  .prs li:last-child { border-bottom: 1px solid var(--line); }
+  .proj { font: 700 0.88rem/1.3 var(--mono); }
+  .prs a { text-decoration: none; font-weight: 600; font-size: 1.05rem; }
+  .prs a:hover { text-decoration: underline; }
+  @media (max-width: 760px) {
+    .projects { grid-template-columns: minmax(0, 1fr); }
+    .prs li { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 14px; }
+    .proj { grid-column: 1 / -1; color: var(--muted); }
+  }
+</style>

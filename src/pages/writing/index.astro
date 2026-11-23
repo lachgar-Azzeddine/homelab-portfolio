@@ -1,0 +1,48 @@
+---
+import Base from "../../layouts/Base.astro";
+import { articles, formatDate } from "../../lib/writing";
+
+const all = articles();
+const byYear = Map.groupBy(all, (a) => a.date.getUTCFullYear());
+---
+<Base title="Writing" description="Things that broke, how I found out why, and what they taught me.">
+  <div class="wrap narrow head">
+    <p class="kicker">Writing</p>
+    <h1 class="display small">Things that broke.</h1>
+    <p class="lede">How I found out why, and what each one taught me. No tutorials, only real failures.</p>
+  </div>
+
+  <div class="wrap narrow list">
+    {[...byYear.entries()].map(([year, items]) => (
+      <section>
+        <h2 class="year">{year}</h2>
+        <ol>
+          {items.map((a) => (
+            <li>
+              <a href={`/writing/${a.slug}/`}>
+                <span class="meta">{formatDate(a.date)} · {a.minutes} min{a.tags.length ? ` · ${a.tags.join(", ")}` : ""}</span>
+                <span class="t">{a.title}</span>
+                <span class="d">{a.description}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .head { padding-block: 64px 32px; }
+  .display.small { font-size: clamp(2.4rem, 6.4vw, 4.4rem); }
+  .list { padding-bottom: 72px; }
+  .year { font: 700 0.8rem/1 var(--mono); letter-spacing: 0.1em; color: var(--muted); margin: 32px 0 6px; }
+  ol { list-style: none; margin: 0; padding: 0; }
+  li { border-top: 1px solid var(--line); }
+  li:last-child { border-bottom: 1px solid var(--line); }
+  li a { display: grid; gap: 6px; padding-block: 22px; text-decoration: none; }
+  .meta { font: 500 0.74rem/1.4 var(--mono); color: var(--muted); }
+  .t { font: 700 1.3rem/1.25 var(--body); text-wrap: balance; }
+  .d { color: var(--muted); }
+  li a:hover .t { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: color-mix(in oklab, var(--charge) var(--e), var(--spent)); }
+</style>

@@ -1,3 +1,0 @@
----
-title: "Azzeddine Lachgar"
----

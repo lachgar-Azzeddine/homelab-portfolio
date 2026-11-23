@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro";
+import { journey } from "../lib/site";
+---
+<Base title="Journey" description="From volts to watts: from electrical engineering to Kubernetes platforms that know what they cost.">
+  <div class="wrap head">
+    <p class="kicker">Journey</p>
+    <h1 class="display">From volts<br /> to watts.</h1>
+    <p class="lede">I trained to measure current in circuits. Now I measure what Kubernetes tenants cost, in watts. This is the path in between, one signal at a time.</p>
+  </div>
+
+  <div class="wrap">
+    <ol class="eras">
+      {journey.map((e) => (
+        <li class:list={["era", { now: e.now }]}>
+          <div class="when">{e.when}</div>
+          <div class="sig">
+            <svg viewBox="0 0 72 30" aria-hidden="true"><path d={e.wave} pathLength="1" /></svg>
+            <span class="tag">{e.tag}</span>
+          </div>
+          <div class="text">
+            <h2>{e.title}</h2>
+            <p>{e.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="coda">
+      Next: a supply chain where nothing unsigned runs, then runtime security in the kernel, then releases that fail on an energy regression.
+      I write about each step as it breaks, in <a href="/writing/">Writing</a>.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .head { padding-block: 64px 48px; }
+  .eras { list-style: none; margin: 0; padding: 0; position: relative; }
+  .era { display: grid; grid-template-columns: 8rem 10rem minmax(0, 1fr); gap: 28px; padding-block: 34px; border-top: 1px solid var(--line); align-items: start; }
+  .era:last-child { border-bottom: 1px solid var(--line); }
+  .when { font: 600 0.85rem/1.5 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 6px; }
+  .sig { display: grid; gap: 10px; }
+  .sig svg { width: 100%; height: 44px; overflow: visible; }
+  .sig path { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.4s cubic-bezier(.45,.05,.25,1) forwards; }
+  .era:nth-child(2) .sig path { animation-delay: .38s; } .era:nth-child(3) .sig path { animation-delay: .56s; } .era:nth-child(4) .sig path { animation-delay: .74s; } .era:nth-child(5) .sig path { animation-delay: .92s; } .era:nth-child(6) .sig path { animation-delay: 1.1s; }
+  .now .sig path { stroke: color-mix(in oklab, var(--charge) var(--e), var(--spent)); stroke-width: 2; }
+  .tag { font: 700 0.75rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .now .tag { color: color-mix(in oklab, var(--charge) var(--e), var(--spent)); }
+  .text h2 { font-family: var(--display); font-weight: 800; font-stretch: 110%; font-size: clamp(1.35rem, 2.6vw, 1.8rem); line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 10px; }
+  .text p { margin: 0; color: var(--muted); max-width: 62ch; font-size: 1.05rem; }
+  .coda { color: var(--muted); max-width: 62ch; padding-block: 40px 80px; margin: 0; font-size: 1.05rem; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .sig path { animation: none; stroke-dashoffset: 0; } }
+  @media (max-width: 760px) {
+    .era { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .sig { grid-template-columns: 90px auto; align-items: center; gap: 14px; }
+    .sig svg { height: 32px; }
+  }
+</style>

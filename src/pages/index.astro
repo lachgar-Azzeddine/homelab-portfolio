@@ -1,0 +1,296 @@
+---
+import Base from "../layouts/Base.astro";
+import { person, projects, journey } from "../lib/site";
+import { articles, formatDate } from "../lib/writing";
+
+const latest = articles().slice(0, 3);
+const now = journey[journey.length - 1];
+---
+<Base>
+  <div class="wrap intro">
+    <p class="hi">Hi, I'm</p>
+    <h1 class="display">{person.name}.</h1>
+    <p class="lede">{person.role}. I build Kubernetes platforms <b>that know what they cost.</b></p>
+  </div>
+
+  <div class="wrap budget">
+    <div class="budget-card">
+      <div>
+        <p class="claim">This website runs on <span class="live" data-energy="budget">30 milliwatt-hours</span> a day.</p>
+        <p class="claim-sub">
+          Every visit spends a little of it. The whole site dims as the day's energy runs down, and when it is spent,
+          it goes to sleep until midnight UTC. It stays readable, it just stops glowing.
+        </p>
+        <p class="asleep-note sleep-msg">Budget spent. The site is asleep until 00:00 UTC.</p>
+      </div>
+
+      <div class="readout" aria-live="polite">
+        <div>
+          <div class="lbl">left today</div>
+          <div class="big-num live" data-energy="left">…</div>
+        </div>
+        <div>
+          <div class="cells" id="cells" role="img" aria-label="Today's energy budget"></div>
+          <div class="scale"><span>00:00 UTC</span><span data-energy="state">measuring</span><span>24:00</span></div>
+        </div>
+        <div class="facts">
+          <div><b data-energy="visits">…</b><span>visitors today</span></div>
+          <div><b data-energy="perVisit">…</b><span>per visit</span></div>
+          <div><b data-energy="used">…</b><span>spent today</span></div>
+        </div>
+        <div class="sim no-print">
+          <button type="button" class="btn solid" id="play">Play a day</button>
+          <input type="range" id="t" min="0" max="1439" value="0" aria-label="Simulated time of day" />
+          <output id="clock" for="t">live</output>
+        </div>
+        <p class="lbl" id="sim-note">Live numbers. "Play a day" runs a simulation on this page only.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" id="how">
+    <div class="wrap">
+      <p class="kicker">How it works</p>
+      <h2 class="h2">The site is the demo.</h2>
+      <ol class="how">
+        <li><h3>Measured</h3><p>The processor's energy counters give the machine's power. The containers serving this page are charged their share of it, by CPU time, every minute.</p></li>
+        <li><h3>Budgeted</h3><p>Today's watt-hours are compared with the site's daily budget. It is the same method <a href={projects[0].url}>joule-budget</a> uses for whole tenants.</p></li>
+        <li><h3>Enforced</h3><p>When the budget is spent, the site sleeps until midnight UTC. Nothing breaks. The light goes out and the words stay.</p></li>
+        <li><h3>Idle by default</h3><p>When nobody is reading, no copy of this site is running at all. Your visit just started one.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="row-head">
+        <div><p class="kicker">Writing</p><h2 class="h2">Things that broke, and what they taught me.</h2></div>
+        <a class="btn" href="/writing/">All articles</a>
+      </div>
+      <div class="notes">
+        {latest.map((a) => (
+          <a class="note" href={`/writing/${a.slug}/`}>
+            <span class="meta">{formatDate(a.date)} · {a.minutes} min</span>
+            <h3>{a.title}</h3>
+            <p>{a.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap teaser">
+      <div>
+        <p class="kicker">Journey</p>
+        <h2 class="h2">From volts to watts.</h2>
+        <p class="teaser-body">I trained as an electrical engineer. Today I measure Kubernetes tenants in watts. Six steps in between, each with its own signal.</p>
+        <a class="btn" href="/journey/">Read the journey</a>
+      </div>
+      <ol class="waves" aria-hidden="true">
+        {journey.map((e) => (
+          <li class={e.now ? "now" : undefined}>
+            <svg viewBox="0 0 72 30"><path d={e.wave} /></svg>
+            <span>{e.tag}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="row-head">
+        <div><p class="kicker">Work</p><h2 class="h2">Open source I wrote, and fixes I sent upstream.</h2></div>
+        <a class="btn" href="/work/">All work</a>
+      </div>
+      <div class="projects">
+        {projects.map((p) => (
+          <a class="project" href={p.url}>
+            <h3>{p.name}</h3>
+            <p>{p.line}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="resume-card">
+        <div>
+          <p class="kicker">Resume</p>
+          <h2 class="h2 flush">One page, always current.</h2>
+          <p>Built from the same source as this site, so it never goes stale.</p>
+        </div>
+        <div class="btns"><a class="btn solid" href="/resume/">Read it</a><a class="btn" href="/resume.pdf">PDF</a></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { padding-block: 72px 40px; }
+  .hi { font: 500 0.95rem/1 var(--mono); color: var(--muted); margin: 0 0 18px; }
+
+  .budget { padding-block: 24px 72px; }
+  .budget-card { border-top: 3px solid color-mix(in oklab, var(--charge) var(--e), var(--spent)); padding-top: 26px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; }
+  .claim { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(1.7rem, 3.8vw, 2.9rem); line-height: 1.04; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+  .claim-sub { margin: 16px 0 0; color: var(--muted); max-width: 46ch; }
+  .sleep-msg { margin-top: 20px; font: 600 0.85rem/1.4 var(--mono); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+  .readout { font-family: var(--mono); display: grid; gap: 18px; align-content: start; }
+  .big-num { font-size: clamp(2.8rem, 6.4vw, 4.8rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .lbl { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  .cells { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 3px; }
+  .cells :global(i) { height: 34px; border-radius: 2px; background: color-mix(in oklab, var(--charge) var(--e), var(--spent)); transition: background-color 0.4s ease; }
+  .cells :global(i.used) { background: var(--line); }
+  .scale { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.7rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .facts div { background: var(--surface); padding: 14px; min-width: 0; }
+  .facts b { display: block; font-size: 1.15rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .facts span { display: block; font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+  .sim { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 8px; font: 500 0.8rem/1.3 var(--mono); color: var(--muted); }
+  .sim .btn { font: 600 0.8rem/1 var(--mono); padding: 9px 12px; }
+  .sim input { flex: 1 1 140px; accent-color: var(--charge); min-width: 0; }
+  .sim output { font-variant-numeric: tabular-nums; color: var(--ink); min-width: 9ch; }
+
+  .how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; counter-reset: s; }
+  .how li { counter-increment: s; min-width: 0; }
+  .how li::before { content: counter(s, decimal-leading-zero); display: block; font: 700 0.8rem/1 var(--mono); margin-bottom: 14px; color: color-mix(in oklab, var(--charge) var(--e), var(--spent)); }
+  .how h3 { font: 700 1.05rem/1.25 var(--body); margin: 0 0 6px; }
+  .how p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+  .row-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+  .row-head .h2 { margin: 0; }
+  .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .note { min-width: 0; text-decoration: none; display: block; border-top: 2px solid var(--ink); padding-top: 16px; }
+  .meta { font: 500 0.72rem/1 var(--mono); color: var(--muted); letter-spacing: 0.04em; }
+  .note h3 { font: 700 1.15rem/1.3 var(--body); margin: 10px 0 8px; }
+  .note p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .note:hover h3 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: color-mix(in oklab, var(--charge) var(--e), var(--spent)); }
+
+  .teaser { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .teaser-body { color: var(--muted); max-width: 44ch; margin: 0 0 22px; }
+  .waves { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 18px; }
+  .waves li { display: grid; gap: 8px; }
+  .waves svg { width: 100%; height: 34px; overflow: visible; }
+  .waves path { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .waves li.now path { stroke: color-mix(in oklab, var(--charge) var(--e), var(--spent)); stroke-width: 2.2; }
+  .waves span { font: 600 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  .projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .project { display: block; text-decoration: none; padding: 26px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .project h3 { font: 700 1.3rem/1.2 var(--mono); margin: 0 0 8px; }
+  .project p { margin: 0; color: var(--muted); }
+  .project:hover { border-color: var(--ink); }
+
+  .resume-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 30px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  .flush { margin: 0; }
+  .resume-card p:not(.kicker) { margin: 8px 0 0; color: var(--muted); }
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  @media (max-width: 860px) {
+    .budget-card, .teaser { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .how { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .notes { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .intro { padding-block: 44px 24px; }
+    .how, .projects { grid-template-columns: minmax(0, 1fr); }
+    .cells { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .cells :global(i) { height: 26px; }
+    .resume-card { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  import { apply, onEnergy, setSimulating, type Energy } from "../lib/energy";
+
+  const cells = document.getElementById("cells")!;
+  for (let i = 0; i < 24; i++) cells.appendChild(document.createElement("i"));
+  const paint = (level: number) => {
+    const used = Math.round((1 - level) * 24);
+    [...cells.children].forEach((c, i) => c.classList.toggle("used", i < used));
+  };
+
+  let live: Energy | null = null;
+  onEnergy((e) => {
+    live = e;
+    paint(e.budgetWh > 0 ? e.leftWh / e.budgetWh : 1);
+  });
+  paint(1);
+
+  // "Play a day": a simulated day of visits, so you can watch the site dim and fall asleep
+  const t = document.getElementById("t") as HTMLInputElement;
+  const clock = document.getElementById("clock") as HTMLOutputElement;
+  const note = document.getElementById("sim-note")!;
+  const rate = (m: number) => {
+    const h = m / 60;
+    return 0.15 + Math.exp(-((h - 15) ** 2) / 18) * 1.6 + Math.exp(-((h - 9.5) ** 2) / 6) * 0.6;
+  };
+  const cum = [0];
+  for (let m = 1; m < 1440; m++) cum[m] = cum[m - 1] + rate(m);
+
+  function simulate(min: number) {
+    setSimulating(true);
+    const budget = live?.budgetWh ?? 0.03;
+    // a full simulated day spends about 115% of the budget, so it runs out in the evening
+    const usedWh = (cum[min] / cum[1439]) * budget * 1.15;
+    const leftWh = Math.max(0, budget - usedWh);
+    const visits = Math.round((cum[min] / cum[1439]) * 900);
+    apply(
+      {
+        budgetWh: budget, usedWh: Math.min(usedWh, budget), leftWh, visits,
+        joulesPerVisit: visits ? (Math.min(usedWh, budget) * 3600) / visits : null,
+        state: leftWh <= 0 ? "asleep" : leftWh / budget < 0.2 ? "low" : "awake",
+        windowStart: "", measuredAt: null,
+      },
+      true,
+    );
+    paint(leftWh / budget);
+    clock.value = `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")} UTC`;
+    note.textContent = "Simulation. These numbers are not live.";
+  }
+
+  function backToLive() {
+    setSimulating(false);
+    clock.value = "live";
+    note.textContent = "Live numbers. \"Play a day\" runs a simulation on this page only.";
+    if (live) paint(live.budgetWh > 0 ? live.leftWh / live.budgetWh : 1);
+    else {
+      document.documentElement.style.setProperty("--energy", "1");
+      document.documentElement.classList.remove("asleep");
+      paint(1);
+    }
+  }
+
+  let raf = 0;
+  let resume: ReturnType<typeof setTimeout> | undefined;
+  t.addEventListener("input", () => {
+    cancelAnimationFrame(raf);
+    clearTimeout(resume);
+    simulate(+t.value);
+    resume = setTimeout(backToLive, 6000);
+  });
+  document.getElementById("play")!.addEventListener("click", () => {
+    cancelAnimationFrame(raf);
+    clearTimeout(resume);
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      t.value = "1439";
+      simulate(1439);
+      resume = setTimeout(backToLive, 6000);
+      return;
+    }
+    const start = performance.now();
+    const step = (now: number) => {
+      const p = Math.min(1, (now - start) / 9000);
+      const m = Math.round(p * 1439);
+      t.value = String(m);
+      simulate(m);
+      if (p < 1) raf = requestAnimationFrame(step);
+      else resume = setTimeout(backToLive, 4000);
+    };
+    raf = requestAnimationFrame(step);
+  });
+</script>

@@ -1,0 +1,52 @@
+---
+import Base from "../../layouts/Base.astro";
+import { articles, formatDate, type Article } from "../../lib/writing";
+
+export function getStaticPaths() {
+  const all = articles();
+  return all.map((a, i) => ({ params: { slug: a.slug }, props: { article: a, newer: all[i - 1], older: all[i + 1] } }));
+}
+
+interface Props { article: Article; newer?: Article; older?: Article }
+const { article, newer, older } = Astro.props;
+const { Content } = article;
+---
+<Base title={article.title} description={article.description} type="article">
+  <article class="wrap narrow">
+    <header class="head">
+      <p class="meta"><a href="/writing/">Writing</a> · <time datetime={article.date.toISOString().slice(0, 10)}>{formatDate(article.date)}</time> · {article.minutes} min read</p>
+      <h1>{article.title}</h1>
+      <p class="lede">{article.description}</p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="end">
+      <p class="cost" data-energy-ready hidden>
+        Serving a page of this site costs about <b class="live" data-energy="perVisit">…</b>.
+        Today it has <span data-energy="left">…</span> left.
+      </p>
+      <nav class="pager" aria-label="More articles">
+        {newer ? <a href={`/writing/${newer.slug}/`}><span>Newer</span>{newer.title}</a> : <span />}
+        {older ? <a class="older" href={`/writing/${older.slug}/`}><span>Older</span>{older.title}</a> : <span />}
+      </nav>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .head { padding-block: 56px 36px; }
+  .meta { font: 500 0.78rem/1.4 var(--mono); color: var(--muted); margin: 0 0 18px; }
+  .meta a { text-decoration: none; color: var(--ink); }
+  h1 { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.04; letter-spacing: -0.03em; margin: 0; }
+  .lede { max-width: none; font-size: 1.2rem; }
+  .end { margin-block: 56px 72px; padding-top: 24px; border-top: 3px solid color-mix(in oklab, var(--charge) var(--e), var(--spent)); display: grid; gap: 28px; }
+  .cost { margin: 0; font: 500 0.88rem/1.6 var(--mono); color: var(--muted); }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .pager a { text-decoration: none; display: grid; gap: 6px; font-weight: 600; }
+  .pager a span { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .pager .older { text-align: right; }
+  @media (max-width: 560px) { .pager { grid-template-columns: 1fr; } .pager .older { text-align: left; } }
+</style>
