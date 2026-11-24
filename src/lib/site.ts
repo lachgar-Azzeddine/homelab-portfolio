@@ -90,9 +90,9 @@ export const contributions = [
   { project: "Kepler", url: "https://github.com/sustainable-computing-io/kepler/pull/2764", what: "VMs keep their real name, so their energy is billed to the right machine.", status: "merged" },
   { project: "Capsule", url: "https://github.com/projectcapsule/capsule/pull/2314", what: "A namespace deleted mid-sync no longer breaks a tenant's quotas.", status: "merged" },
   { project: "Kamaji", url: "https://github.com/clastix/kamaji/pull/1419", what: "Hosted control planes report a standard Ready condition.", status: "merged" },
+  { project: "Kamaji", url: "https://github.com/clastix/kamaji/pull/1433", what: "The network profile default now applies its port default.", status: "merged" },
+  { project: "Kamaji", url: "https://github.com/clastix/kamaji/pull/1432", what: "Guide: hosted control planes under the restricted Pod Security Standard.", status: "merged" },
   { project: "Capsule", url: "https://github.com/projectcapsule/capsule/pull/2317", what: "Parallel creates can no longer push a tenant past its namespace quota.", status: "in review" },
-  { project: "Kamaji", url: "https://github.com/clastix/kamaji/pull/1433", what: "The network profile default now applies its port default.", status: "in review" },
-  { project: "Kamaji", url: "https://github.com/clastix/kamaji/pull/1432", what: "Guide: hosted control planes under the restricted Pod Security Standard.", status: "in review" },
 ] as const;
 
 // Each era of the journey has its own waveform, drawn in a 72 x 30 box.
